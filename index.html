@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry 🌹 </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ══════════════════════════════════════
+           SPLASH SCREEN (NEW)
+        ══════════════════════════════════════ */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #ff1a33, #c80016); /* Vibrant, trendy cool red */
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+        }
+
+        /* Floating Background Emojis */
+        .splash-bg-emojis {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .splash-emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: driftUp linear infinite;
+        }
+        @keyframes driftUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Main Splash Layout */
+        .splash-layout {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px 40px 100px; /* Extra padding at bottom for the button */
+            flex-wrap: wrap;
+        }
+
+        /* Text Section */
+        .splash-text-col {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+            animation: slideInLeft 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .splash-massive-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(4.5rem, 12vw, 9rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 4px 6px 15px rgba(0,0,0,0.2);
+            color: #ffffff;
+            transform: rotate(-3deg);
+        }
+        .splash-sub {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 700;
+            opacity: 0.95;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 10px 20px;
+            border-radius: 12px;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Image & Balloons Section */
+        .splash-flower-col {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .floating-flower-wrapper {
+            position: relative;
+            animation: majesticFloat 5s ease-in-out infinite alternate;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* Kite / Paper Plane */
+        .kite-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: -10px;
+            z-index: 2;
+            position: relative;
+        }
+        .kite {
+            font-size: 2.6rem;
+            animation: kiteWobble 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+            transform: rotate(-20deg);
+        }
+        .kite-string {
+            width: 2px;
+            height: 55px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.4));
+            border-radius: 2px;
+        }
+        @keyframes kiteWobble {
+            0% { transform: rotate(-20deg) translateX(-4px); }
+            100% { transform: rotate(-10deg) translateX(4px); }
+        }
+        
+        .flower-img-wrap {
+            position: relative;
+            z-index: 1;
+            width: 320px;
+            background: #ffffff;
+            padding: 14px 14px 44px 14px; /* Polaroid style */
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transform: rotate(4deg);
+        }
+        .flower-img-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 2px;
+            object-fit: contain;
+        }
+
+        /* Entry Button */
+        .splash-enter-btn {
+            position: absolute;
+            bottom: 40px;
+            background: #ffffff;
+            color: #d9001b;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 18px 45px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            animation: splashPulse 2s infinite;
+            z-index: 3;
+        }
+        .splash-enter-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* Splash Keyframes */
+        @keyframes majesticFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-40px) rotate(3deg); }
+        }
+        @keyframes splashPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); }
+            70% { box-shadow: 0 0 0 25px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Splash Responsive */
+        @media (max-width: 768px) {
+            .splash-layout { flex-direction: column; text-align: center; gap: 30px; padding-top: 50px; }
+            .splash-text-col { text-align: center; }
+            .splash-massive-text { transform: rotate(0deg); margin-bottom: 10px; }
+            .floating-flower-wrapper { margin-top: 10px; transform: scale(0.75); transform-origin: center top; }
+            .splash-enter-btn { bottom: 25px; font-size: 1.1rem; padding: 14px 35px; }
+        }
+
+        /* ══════════════════════════════════════
+           DESIGN SYSTEM (ORIGINAL)
+        ══════════════════════════════════════ */
+        :root {
+            --bg:            #faf7f5;
+            --bg-2:          #f3ede9;
+            --surface:       #ffffff;
+            --surface-2:     #fdf9f7;
+            --border:        rgba(180, 90, 90, 0.10);
+            --border-strong: rgba(180, 90, 90, 0.18);
+            --text-1:        #1e0a0e;
+            --text-2:        #6b3040;
+            --text-3:        #a87080;
+            --accent:        #b5192a;
+            --accent-2:      #e8526a;
+            --accent-soft:   rgba(181, 25, 42, 0.09);
+            --accent-glow:   rgba(181, 25, 42, 0.22);
+            --gold:          #c9964a;
+            --gold-soft:     rgba(201, 150, 74, 0.12);
+            --radius-sm:     14px;
+            --radius-md:     22px;
+            --radius-lg:     32px;
+            --shadow-sm:     0 2px 12px rgba(30,10,14,0.06);
+            --shadow-md:     0 8px 32px rgba(30,10,14,0.08), 0 1px 4px rgba(30,10,14,0.04);
+            --shadow-lg:     0 20px 60px rgba(30,10,14,0.10), 0 4px 16px rgba(30,10,14,0.05);
+            --shadow-glow:   0 0 0 1px var(--border), var(--shadow-md);
+            --font-display:  'DM Serif Display', serif;
+            --font-body:     'DM Sans', sans-serif;
+            --font-serif:    'Playfair Display', serif;
+            --font-ar-serif: 'Amiri', serif;
+            --font-ar-sans:  'Cairo', sans-serif;
+            --speed:         0.45s;
+        }
+
+        [data-theme="dark"] {
+            --bg:            #120508;
+            --bg-2:          #1c0810;
+            --surface:       rgba(40, 10, 18, 0.85);
+            --surface-2:     rgba(55, 15, 25, 0.7);
+            --border:        rgba(255, 130, 150, 0.08);
+            --border-strong: rgba(255, 130, 150, 0.16);
+            --text-1:        #fff0f2;
+            --text-2:        #e0a0b0;
+            --text-3:        #9a6070;
+            --accent:        #ff4d6d;
+            --accent-2:      #ff8099;
+            --accent-soft:   rgba(255, 77, 109, 0.12);
+            --accent-glow:   rgba(255, 77, 109, 0.28);
+            --gold:          #d4a862;
+            --gold-soft:     rgba(212, 168, 98, 0.10);
+            --shadow-sm:     0 2px 12px rgba(0,0,0,0.25);
+            --shadow-md:     0 8px 32px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+            --shadow-lg:     0 20px 60px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.25);
+        }
+
+        /* ══════════════════════════════════════
+           RESET & BASE
+        ══════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text-1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background var(--speed) ease, color var(--speed) ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ══════════════════════════════════════
+           SCROLLBAR
+        ══════════════════════════════════════ */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; opacity: 0.4; }
+
+        /* ══════════════════════════════════════
+           CANVAS & AMBIENT BG
+        ══════════════════════════════════════ */
+        #celebration-canvas {
+            position: fixed; inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            display: none;
+        }
+
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity var(--speed) ease;
+        }
+        .ambient-1 { width: 500px; height: 500px; background: var(--accent); top: -100px; right: -150px; animation: blob-drift 18s ease-in-out infinite; }
+        .ambient-2 { width: 350px; height: 350px; background: var(--gold); bottom: 200px; left: -100px; animation: blob-drift 22s ease-in-out infinite reverse; }
+        [data-theme="dark"] .ambient { opacity: 0.12; }
+
+        /* ══════════════════════════════════════
+           THEME TOGGLE
+        ══════════════════════════════════════ */
+        .theme-toggle {
+            position: fixed; top: 22px; right: 22px;
+            z-index: 1000;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            padding: 9px 18px 9px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: flex; align-items: center; gap: 8px;
+            font-family: var(--font-body);
+            font-size: 0.70rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            color: var(--text-2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--text-1);
+        }
+        .theme-toggle svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+        /* ══════════════════════════════════════
+           LAYOUT
+        ══════════════════════════════════════ */
+        .container {
+            position: relative; z-index: 1;
+            width: 100%; max-width: 660px;
+            padding: 90px 22px 100px;
+            display: flex; flex-direction: column; 
+            gap: 52px;
+        }
+
+        /* ══════════════════════════════════════
+           CARDS
+        ══════════════════════════════════════ */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 56px 48px;
+            box-shadow: var(--shadow-glow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: background var(--speed) ease, border var(--speed) ease, box-shadow var(--speed) ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute; top: 0; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-soft) 40%, rgba(201,150,74,0.3) 60%, transparent);
+            border-radius: 1px;
+        }
+
+        /* ══════════════════════════════════════
+           TYPOGRAPHY & ELEMENTS
+        ══════════════════════════════════════ */
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .eyebrow::before, .eyebrow::after {
+            content: '';
+            display: block; width: 24px; height: 1px;
+            background: currentColor; opacity: 0.4;
+        }
+        
+        .ar-eyebrow {
+            font-family: var(--font-ar-sans);
+            font-size: 1.15rem;
+            letter-spacing: 0; 
+            font-weight: 700;
+        }
+
+        .display-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 6vw, 3.4rem);
+            font-weight: 400;
+            line-height: 1.12;
+            letter-spacing: -0.01em;
+            margin-bottom: 10px;
+            color: var(--text-1);
+        }
+        .display-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .ar-title {
+            font-family: var(--font-ar-sans);
+            line-height: 1.4;
+        }
+
+        .subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-2);
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+
+        .body-text {
+            font-size: 0.93rem;
+            line-height: 1.85;
+            color: var(--text-2);
+            font-weight: 300;
+            margin-bottom: 16px;
+        }
+        .ar-body {
+            font-family: var(--font-ar-sans);
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+
+        .divider {
+            display: flex; align-items: center; justify-content: center; gap: 14px;
+            margin: 28px auto;
+            color: var(--accent);
+            opacity: 0.3;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1; max-width: 60px;
+            height: 1px; background: currentColor;
+        }
+        .diamond { width: 5px; height: 5px; background: currentColor; transform: rotate(45deg); }
+
+        /* ══════════════════════════════════════
+           HERO SECTION
+        ══════════════════════════════════════ */
+        .hero-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 72px; height: 72px;
+            background: linear-gradient(135deg, var(--accent-soft), var(--gold-soft));
+            border: 1px solid var(--border-strong);
+            border-radius: 50%;
+            margin-bottom: 28px;
+            animation: gentle-float 4s ease-in-out infinite;
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+        .hero-badge svg { width: 36px; height: 36px; }
+
+        .scroll-cta {
+            margin-top: 44px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .scroll-cta-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: var(--text-3);
+            text-transform: uppercase;
+        }
+        .scroll-arrow {
+            width: 32px; height: 32px;
+            border: 1px solid var(--border-strong);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
+            animation: arrow-bounce 2s ease-in-out infinite;
+        }
+        .scroll-arrow svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ══════════════════════════════════════
+           COUNTER SECTION
+        ══════════════════════════════════════ */
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .counter-box {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 22px 10px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color var(--speed) ease, box-shadow var(--speed) ease, transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .counter-box:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .counter-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            opacity: 0;
+            transition: opacity var(--speed) ease;
+        }
+        .counter-box:hover::before { opacity: 1; }
+        
+        .counter-box .num {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            font-weight: 700;
+            color: var(--text-1);
+            line-height: 1;
+            display: block;
+            transition: color var(--speed) ease;
+        }
+        .counter-box .lbl {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-3);
+            margin-top: 10px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        
+        .flip-anim {
+            animation: counterFlip 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        /* ══════════════════════════════════════
+           FLIP GRID
+        ══════════════════════════════════════ */
+        .grid-hint {
+            font-size: 0.78rem;
+            color: var(--accent); opacity: 0.8;
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+        .reminders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .flip-card {
+            background: transparent;
+            perspective: 1200px;
+            height: 170px;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%;
+            text-align: center;
+            transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: var(--radius-md);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .flip-card-front {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: background var(--speed) ease, border var(--speed) ease;
+        }
+        .flip-card-front:hover { box-shadow: var(--shadow-md); }
+        .flip-card-front .card-emoji {
+            font-size: 2rem; margin-bottom: 10px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .flip-card:hover .card-emoji { transform: scale(1.2); }
+        .flip-card-front .tap-label {
+            font-size: 0.6rem; font-weight: 500;
+            letter-spacing: 0.15em; opacity: 0.45; text-transform: uppercase;
+            color: var(--text-2);
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+            font-size: 1.25rem;
+            line-height: 1.6;
+            font-weight: 400;
+            font-family: var(--font-ar-serif);
+        }
+        
+        [data-theme="light"] .flip-card-back {
+            background: linear-gradient(135deg, var(--accent), #8b0e1f);
+            color: #fff8f8;
+            border: none;
+        }
+        [data-theme="dark"] .flip-card-back {
+            background: rgba(255, 77, 109, 0.12);
+            border: 1px solid rgba(255, 77, 109, 0.25);
+            color: #ffeaee;
+            backdrop-filter: blur(12px);
+        }
+
+        /* ══════════════════════════════════════
+           VINYL / SONG
+        ══════════════════════════════════════ */
+        .vinyl-wrap {
+            position: relative; width: 180px; height: 180px;
+            margin: 40px auto 28px;
+        }
+        .vinyl-glow-ring {
+            position: absolute; inset: -12px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent), var(--gold), var(--accent-2), var(--accent));
+            opacity: 0.2;
+            filter: blur(8px);
+            animation: spin 6s linear infinite;
+        }
+        .vinyl-disc {
+            position: relative; width: 100%; height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 50% 50%, #2a0408 0%, #2a0408 14%, transparent 15%),
+                repeating-radial-gradient(circle at 50% 50%, #1a0408 0px, #1a0408 2px, #2e0b12 2px, #2e0b12 4px, #1a0408 4px, #1a0408 6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35), inset 0 0 20px rgba(0,0,0,0.4);
+            animation: spin 8s linear infinite;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .vinyl-center {
+            width: 58px; height: 58px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .song-meta {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            letter-spacing: 0.08em;
+            margin-bottom: 28px;
+        }
+
+        /* ══════════════════════════════════════
+           PILL BUTTON
+        ══════════════════════════════════════ */
+        .pill-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            border: none; cursor: pointer;
+            box-shadow: 0 8px 24px var(--accent-glow), 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+            position: relative; overflow: hidden;
+        }
+        .pill-btn::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        .pill-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 32px var(--accent-glow), 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .pill-btn.pulse { animation: ring-pulse 2.5s ease-in-out infinite; }
+
+        /* ══════════════════════════════════════
+           FORGIVENESS SECTION
+        ══════════════════════════════════════ */
+        .interactive-zone {
+            margin-top: 38px;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .choice-btn {
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+        }
+        .btn-yes {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 8px 24px var(--accent-glow);
+            z-index: 10;
+            position: relative;
+        }
+        .btn-yes::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+            border-radius: inherit; pointer-events: none;
+        }
+        .btn-yes:hover { transform: scale(1.06); box-shadow: 0 12px 32px var(--accent-glow); }
+
+        .btn-no {
+            background: transparent;
+            color: var(--text-3);
+            border: 1px solid var(--border-strong);
+            position: relative;
+            z-index: 5;
+            transition: left 0.18s ease, top 0.18s ease, transform 0.18s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .success-content {
+            display: none;
+            animation: rise-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .success-emoji-row {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .card-footer-line {
+            margin-top: 36px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-soft) 30%, rgba(201,150,74,0.35) 50%, var(--gold-soft) 70%, transparent);
+        }
+
+        /* ══════════════════════════════════════
+           KEYFRAMES
+        ══════════════════════════════════════ */
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes arrow-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes ring-pulse {
+            0%   { box-shadow: 0 8px 24px var(--accent-glow), 0 0 0 0 var(--accent-glow); }
+            60%  { box-shadow: 0 8px 24px var(--accent-glow), 0 0 0 14px rgba(0,0,0,0); }
+            100% { box-shadow: 0 8px 24px var(--accent-glow), 0 0 0 0 rgba(0,0,0,0); }
+        }
+        @keyframes rise-in {
+            from { opacity: 0; transform: translateY(18px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes blob-drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33%  { transform: translate(30px, -40px) scale(1.05); }
+            66%  { transform: translate(-20px, 20px) scale(0.97); }
+        }
+        @keyframes counterFlip {
+            0%  { transform: translateY(0); opacity: 1; }
+            40% { transform: translateY(-8px); opacity: 0; }
+            60% { transform: translateY(8px); opacity: 0; }
+            100%{ transform: translateY(0); opacity: 1; }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 560px) {
+            .container { padding: 70px 14px 90px; gap: 36px; }
+            .card { padding: 40px 24px; }
+            .display-title { font-size: clamp(2rem, 8vw, 2.6rem); }
+            .reminders-grid { grid-template-columns: 1fr; gap: 14px; }
+            .flip-card { height: 140px; }
+            .theme-toggle { top: 14px; right: 14px; padding: 8px 14px; }
+            .interactive-zone { flex-direction: column; min-height: 160px; width: 100%; gap: 14px; }
+            .choice-btn { width: 100%; max-width: 260px; }
+            
+            /* Responsive Counter */
+            .counter-grid { gap: 8px; }
+            .counter-box { padding: 16px 6px; }
+            .counter-box .num { font-size: 1.5rem; }
+            .counter-box .lbl { font-size: 0.55rem; letter-spacing: 0.05em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-bg-emojis" id="splash-emojis">
+            </div>
+        
+        <div class="splash-layout">
+            <div class="splash-text-col">
+                <h1 class="splash-massive-text">I'm Sorry</h1>
+
+            </div>
+            
+            <div class="splash-flower-col">
+                <div class="floating-flower-wrapper">
+                    <div class="kite-container">
+                        <div class="kite">✈️</div>
+                        <div class="kite-string"></div>
+                    </div>
+                    <div class="flower-img-wrap">
+                        <img src="flower.jpg" id="flower" alt="A beautiful flower for you">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="splash-enter-btn" id="enter-btn">دوسي هنا</button>✨</button>
+    </div>
+
+    <canvas id="celebration-canvas"></canvas>
+
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24">
+            <path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.3-3.8 8.7.6 3.9 3.8 7.1 7.7 7.7 3.4.5 6.7-1 8.7-3.8.3-.4.9-.6 1.4-.4.5.2.8.7.7 1.2-.9 4.6-5 8.1-9.7 8.3z" fill="currentColor"/>
+        </svg>
+        <span id="themeText">DARK</span>
+    </button>
+
+    <div class="container">
+
+        <section class="card" id="apology-section">
+            <div class="hero-badge">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32 22C36 12 48 10 50 18C52 26 42 34 32 44C22 34 12 26 14 18C16 10 28 12 32 22Z" fill="var(--accent)"/>
+                    <path d="M32 18C30 14 24 14 24 18C24 24 32 28 32 28C32 28 40 24 40 18C40 14 34 14 32 18Z" fill="var(--accent-2)" opacity="0.75"/>
+                    <path d="M32 44V60" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M32 48C28 50 26 48 24 46C24 50 28 52 32 52" stroke="var(--gold)" stroke-width="1.5" fill="none"/>
+                </svg>
+            </div>
+
+            <span class="eyebrow">From the heart</span>
+            <h1 class="display-title">I'm <em>Sorry</em></h1>
+            <p class="subtitle">with all my heart, to HANA …</p>
+
+            <div class="divider">
+                <div class="diamond"></div>
+                <div class="diamond"></div>
+                <div class="diamond"></div>
+            </div>
+
+            <p class="body-text ar-body">
+               أنا عمري ما كان قصدي أوجعك أو أسببلك أي زعل، خصوصًا إنك بالنسبالي أغلى حد في الدنيا كلها. بكتبلك الرسالة دي عشان أقولك إني ندمان من قلبي على أي حاجة خلت بينا مسافة أو خلتك تشيل مني.
+                <br><br>
+                إنت تستحق كل حب وراحة واهتمام، وتستحق حد يصبر عليك ويطمنك مش يزعلك. نفسي أصلح اللي بوظته وأرجع أشوف ضحكتك اللي بتفرق معايا أكتر ما تتخيل.
+                <br><br>
+                سامحني، لأني فعلًا ما كنتش حابب أخسرك أو أكون سبب في وجعك.
+            </p>
+            <p class="body-text">
+                You deserve absolute softness, patience, and love. I want to bring back the smile that lights up my whole world.
+            </p>
+
+            <div class="card-footer-line"></div>
+
+            <div class="scroll-cta">
+                <span class="scroll-cta-label">Keep scrolling</span>
+                <div class="scroll-arrow">
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <section class="card" id="counter-section">
+            <span class="eyebrow ar-eyebrow">مع بعض بقالنا كام يوم؟</span>
+            <h2 class="display-title">Time <em>together</em></h2>
+            <p class="subtitle">We've come such a long way, since December 1, 2023</p>
+
+            <div class="counter-grid">
+                <div class="counter-box">
+                    <span class="num" id="cnt-days">0</span>
+                    <span class="lbl">Days</span>
+                </div>
+                <div class="counter-box">
+                    <span class="num" id="cnt-hours">0</span>
+                    <span class="lbl">Hours</span>
+                </div>
+                <div class="counter-box">
+                    <span class="num" id="cnt-mins">0</span>
+                    <span class="lbl">Mins</span>
+                </div>
+                <div class="counter-box">
+                    <span class="num" id="cnt-secs">0</span>
+                    <span class="lbl">Secs</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <span class="eyebrow">Little Reminders</span>
+            <h2 class="display-title">Why I <em>love</em> you</h2>
+            <p class="grid-hint">tap each card to reveal 🤍</p>
+
+            <div class="reminders-grid">
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                           بحب فيكي انك طيبة وقلبك جميل زيك 
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                         إنك بتخليني أحس إني كفاية زي ما أنا
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                           وجودك بيطمني أكتر ما بيخليني أفكر كتير
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                         بتعرفي تسمعي وتفهمي قبل ما تحكمي
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                         عندك روح تخلي أي مكان أهدى وأريح
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="card-emoji">🤍</span>
+                            <span class="tap-label">Tap Me</span>
+                        </div>
+                        <div class="flip-card-back">
+                          بحب فيكي إنك طبيعية، ومش بتحاولي تبقي نسخة من حد تاني
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <span class="eyebrow">Just One Song</span>
+            <h2 class="display-title">A song <em>for you</em> 🎵</h2>
+            <p class="subtitle">this song says everything I feel</p>
+
+            <div class="vinyl-wrap">
+                <div class="vinyl-glow-ring"></div>
+                <div class="vinyl-disc">
+                    <div class="vinyl-center">💌</div>
+                </div>
+            </div>
+
+            <p class="song-meta">Our special song</p>
+            <button class="pill-btn pulse" onclick="window.open('https://youtu.be/69jK7Z1kisM?si=Z2EUy4C3HIk3jK6w', '_blank')">
+                Listen now 🎶
+            </button>
+        </section>
+
+        <section class="card" id="forgivenessCard">
+            <div id="ask-container">
+                <span class="eyebrow">One Question</span>
+                <h2 class="display-title ar-title"> مسمحاني خلاص ؟ 🥺</h2>
+                <p class="subtitle">a sincere apology, just for you</p>
+
+                <div class="interactive-zone" id="btnWrapper">
+                    <button class="choice-btn btn-yes" id="yesBtn">Yes💖</button>
+                    <button class="choice-btn btn-no" id="noBtn">No 😤</button>
+                </div>
+            </div>
+
+            <div class="success-content" id="success-container">
+                <span class="success-emoji-row">🥰🥳</span>
+                <h2 class="display-title">Thank <em>you</em>…</h2>
+                <p class="subtitle ar-title" style="margin-bottom:0;">كنت عاارف اني مش ههون عليكي .. بحبك اوووي </p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        /* ══════════════════════════════
+           0. SPLASH SCREEN LOGIC
+        ══════════════════════════════ */
+        // Lock scrolling initially so users don't scroll past the splash screen
+        document.body.style.overflow = 'hidden';
+
+        // Dynamically add drifting emojis to the background
+        const emojisContainer = document.getElementById('splash-emojis');
+        const splashEmojis = ['❤️', '🩷', '🤍', '💗', '💓', '💕'];
+        
+        for (let i = 0; i < 25; i++) {
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'splash-emoji';
+            emojiEl.innerText = splashEmojis[Math.floor(Math.random() * splashEmojis.length)];
+            emojiEl.style.left = (Math.random() * 100) + 'vw';
+            // Randomize animation duration and delay for a natural floating effect
+            emojiEl.style.animationDuration = (Math.random() * 6 + 6) + 's';
+            emojiEl.style.animationDelay = (Math.random() * 5) + 's';
+            emojisContainer.appendChild(emojiEl);
+        }
+
+        // Handle splash screen exit
+        const splashScreen = document.getElementById('splash-screen');
+        const enterBtn = document.getElementById('enter-btn');
+
+        enterBtn.addEventListener('click', () => {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.visibility = 'hidden';
+            
+            // Restore natural scrolling
+            document.body.style.overflow = '';
+            
+            // Remove from DOM entirely after fade transition
+            setTimeout(() => {
+                splashScreen.remove();
+            }, 800);
+        });
+
+
+        /* ══════════════════════════════
+           1. THEME TOGGLE
+        ══════════════════════════════ */
+        const themeBtn  = document.getElementById('themeBtn');
+        const themeText = document.getElementById('themeText');
+        const themeIcon = document.getElementById('themeIcon');
+        const root      = document.documentElement;
+
+        const moonPath = `<path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.2-9.8.5-.1 1 .2 1.2.7.2.5 0 1.1-.4 1.4-2.8 1.9-4.3 5.3-3.8 8.7.6 3.9 3.8 7.1 7.7 7.7 3.4.5 6.7-1 8.7-3.8.3-.4.9-.6 1.4-.4.5.2.8.7.7 1.2-.9 4.6-5 8.1-9.7 8.3z" fill="currentColor"/>`;
+        const sunPath  = `<circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`;
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeText.textContent = isDark ? 'DARK' : 'LIGHT';
+            themeIcon.innerHTML   = isDark ? moonPath : sunPath;
+        });
+
+        /* ══════════════════════════════
+           2. FLIP CARDS
+        ══════════════════════════════ */
+        function toggleCard(el) { el.classList.toggle('is-flipped'); }
+
+        /* ══════════════════════════════
+           3. ESCAPING "NO" BUTTON
+        ══════════════════════════════ */
+        const noBtn     = document.getElementById('noBtn');
+        const btnWrapper = document.getElementById('btnWrapper');
+
+        let isAbsolute = false;
+
+        function escapeNoBtn() {
+            if (!isAbsolute) {
+                const rect    = noBtn.getBoundingClientRect();
+                const wRect   = btnWrapper.getBoundingClientRect();
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = (rect.left - wRect.left) + 'px';
+                noBtn.style.top  = (rect.top  - wRect.top)  + 'px';
+                noBtn.style.margin = '0';
+                isAbsolute = true;
+                requestAnimationFrame(() => teleport());
+            } else {
+                teleport();
+            }
+        }
+
+        function teleport() {
+            const wW = btnWrapper.offsetWidth;
+            const wH = btnWrapper.offsetHeight;
+            const bW = noBtn.offsetWidth;
+            const bH = noBtn.offsetHeight;
+
+            const minHeight = Math.max(wH, 130);
+            btnWrapper.style.minHeight = minHeight + 'px';
+
+            const maxX = Math.max(wW - bW - 8, 0);
+            const maxY = Math.max(minHeight - bH - 8, 0);
+
+            let newX, newY;
+            for (let attempt = 0; attempt < 8; attempt++) {
+                newX = Math.random() * maxX;
+                newY = Math.random() * maxY;
+                if (window.innerWidth <= 560) {
+                    newY = (minHeight * 0.45) + Math.random() * (minHeight * 0.45);
+                    newX = (wW / 2) - (bW / 2); 
+                }
+                break;
+            }
+
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top  = newY + 'px';
+        }
+
+        noBtn.addEventListener('mouseenter', escapeNoBtn);
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            escapeNoBtn();
+        }, { passive: false });
+
+        /* ══════════════════════════════
+           4. YES → CELEBRATION
+        ══════════════════════════════ */
+        const yesBtn          = document.getElementById('yesBtn');
+        const askContainer    = document.getElementById('ask-container');
+        const successContainer = document.getElementById('success-container');
+        const canvas          = document.getElementById('celebration-canvas');
+        const ctx             = canvas.getContext('2d');
+        let particles = [];
+
+        yesBtn.addEventListener('click', () => {
+            askContainer.style.display = 'none';
+            successContainer.style.display = 'block';
+            launchCelebration();
+        });
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.type = Math.random() > 0.6 ? 'heart' : (Math.random() > 0.4 ? 'sparkle' : 'petal');
+                this.size = Math.random() * 13 + 7;
+                this.speedX = Math.random() * 3.5 - 1.75;
+                this.speedY = this.type === 'petal' ? -(Math.random() * 2.5 + 0.5) : (Math.random() * 3 + 0.5);
+                this.color = `hsl(${Math.random() * 30 + 340}, 90%, ${Math.random() * 25 + 55}%)`;
+                this.opacity = 1;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.05 - 0.025;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                if (this.type === 'heart') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, 0, 0, this.size);
+                    ctx.bezierCurveTo(this.size, 0, this.size/2, -this.size/2, 0, 0);
+                    ctx.fill();
+                } else if (this.type === 'sparkle') {
+                    ctx.beginPath();
+                    for (let i = 0; i < 4; i++) {
+                        ctx.lineTo(0, -this.size);
+                        ctx.rotate(Math.PI / 2);
+                        ctx.lineTo(0, -this.size / 4);
+                        ctx.rotate(Math.PI / 2);
+                    }
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.ellipse(-this.size/3, -this.size/4, this.size/3, this.size/2, Math.PI/6, 0, Math.PI*2);
+                    ctx.ellipse(this.size/3, -this.size/4, this.size/3, this.size/2, -Math.PI/6, 0, Math.PI*2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.angle += this.spin;
+                this.opacity -= 0.006;
+            }
+        }
+
+        function launchCelebration() {
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+            for (let i = 0; i < 110; i++) {
+                particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height * 0.5));
+            }
+            animateCanvas();
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (particles.length < 160 && Math.random() > 0.45) {
+                const fromTop = Math.random() > 0.5;
+                particles.push(new Particle(
+                    Math.random() * canvas.width,
+                    fromTop ? -20 : canvas.height + 20
+                ));
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].opacity <= 0 || particles[i].y < -60 || particles[i].y > canvas.height + 60) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        /* ══════════════════════════════
+           5. TIME TOGETHER COUNTER
+        ══════════════════════════════ */
+        const relationStartDate = new Date('2023-12-01T00:00:00');
+        const countEls = {
+            d: document.getElementById('cnt-days'),
+            h: document.getElementById('cnt-hours'),
+            m: document.getElementById('cnt-mins'),
+            s: document.getElementById('cnt-secs')
+        };
+        let prevCnt = { d: -1, h: -1, m: -1, s: -1 };
+        
+        function updateRelationshipCounter() {
+            const diff = Date.now() - relationStartDate;
+            
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            
+            if (d !== prevCnt.d) { animCounterNum(countEls.d, d); prevCnt.d = d; } 
+            if (h !== prevCnt.h) { animCounterNum(countEls.h, h); prevCnt.h = h; }
+            if (m !== prevCnt.m) { animCounterNum(countEls.m, m); prevCnt.m = m; } 
+            if (s !== prevCnt.s) { animCounterNum(countEls.s, s); prevCnt.s = s; }
+        }
+        
+        function animCounterNum(el, val) {
+            el.textContent = val;
+            el.classList.remove('flip-anim');
+            void el.offsetWidth; 
+            el.classList.add('flip-anim');
+        }
+        
+        updateRelationshipCounter(); 
+        setInterval(updateRelationshipCounter, 1000);
+    </script>
+
+</body>
+</html>
